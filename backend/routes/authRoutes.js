@@ -1,10 +1,10 @@
-const express = require('express');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const { z } = require('zod');
+import express from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { User } from '../models/User.js';
+import { z } from 'zod';
 
-const { signup } = require('../controllers/authController');
+import { signup } from '../controllers/authController.js';
 // Zod validation schemas
 const signupSchema = z.object({
   username: z.string().min(3),
@@ -87,4 +87,4 @@ router.post('/login', async (req, res) => {
 });
 
 
-module.exports = router;
+export default router;
