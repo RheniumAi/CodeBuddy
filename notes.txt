@@ -1,0 +1,12 @@
+To make sure all node modules are installed-
+Run this command-
+
+cd backend
+npm i
+-----------------------------------
+to start backend server- go to 
+
+cd backend
+run- 
+
+npm run dev
