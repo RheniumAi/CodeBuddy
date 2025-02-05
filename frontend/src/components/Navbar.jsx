@@ -9,6 +9,7 @@ function Navbar() {
       </div>
 
       <div className="flex space-x-6 text-gray-700 font-medium">
+      <Link to="/" className="hover:text-blue-500 transition duration-300">Home</Link>
         <Link to="/about" className="hover:text-blue-500 transition duration-300">About</Link>
         <Link to="/login" className="hover:text-blue-500 transition duration-300">Login</Link>
         <Link to="/signup" className="hover:text-blue-500 transition duration-300">Sign Up</Link>
