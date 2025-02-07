@@ -1,10 +1,12 @@
 import React from 'react';
 import Profile from '../../components/Profile';
+import Button from '../../components/Button';
+import Suggestioncard from '../../components/Suggestioncard';
 
 function ProfilePage() {
   return (
-    <div className="flex items-start justify-center min-h-screen bg-gray-100 p-8">
-      <Profile />
+    <div>
+      This is profile page
     </div>
   );
 }
