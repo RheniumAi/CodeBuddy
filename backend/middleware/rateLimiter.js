@@ -1,0 +1,1 @@
+// Middldleware that limits the call to 'Ask ai' route. express-rate-limit will be used
