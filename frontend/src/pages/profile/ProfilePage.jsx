@@ -1,12 +1,12 @@
-import React from 'react';
-import Profile from '../../components/Profile';
-import Button from '../../components/Button';
-import Suggestioncard from '../../components/Suggestioncard';
+import React from "react";
+import Profile from "../../components/profile/Profile";
+import Utility from "../../components/profile/Utility";
 
 function ProfilePage() {
   return (
-    <div>
-      This is profile page
+    <div className="min-h-screen bg-gray-900 ">
+      <Profile />
+      <Utility />
     </div>
   );
 }
