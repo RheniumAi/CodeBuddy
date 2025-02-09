@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
 import React from 'react';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -19,13 +19,14 @@ function LoginPage() {
     try {
       const response = await loginUser(formData)
       console.log('Login successful:', response)
-      toast.success("User signed up successfully! Navigationg to login page");
+      toast.success("Login successful");
       setTimeout(()=>{
         navigate('/profile');
       }, 1000)
     } catch (error) {
       console.error('Signup failed:', error);
-      toast.error("SignUp failed");
+      const errorMessage = error?.error || "Login failed. Please try again."; 
+      toast.error(errorMessage);
     }
   };
   return (

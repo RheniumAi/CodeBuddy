@@ -8,7 +8,7 @@ export const signUpUser = async (userData)=>{
         return response.data;
     } catch (error) {
         console.error("Error signing up user:", error.response.data);
-        throw new Error(error.response.data.message);
+        throw error.response?.data || { error: "Something went wrong" };
     }
 }
 
@@ -18,6 +18,6 @@ export const loginUser = async (userData)=>{
         return response.data;
     } catch (error) {
         console.error("Error logging in user:", error.response.data);
-        throw new Error(error.response.data.message);
+        throw error.response?.data || { error: "Something went wrong" };
     }
 }
