@@ -69,7 +69,7 @@ const login = async (req, res) => {
       return res.status(400).json({ error: "Invalid username or password" });
     }
 
-    generateTokenAndSetCookie(user._id, res);
+    const token = generateTokenAndSetCookie(user._id, res);
 
     res.status(200).json({
       _id: user._id,
@@ -77,6 +77,7 @@ const login = async (req, res) => {
       email: user.email,
       friends: user.friends,
       friendRequest: user.friendRequest,
+      token // For debugging
     });
   } catch (error) {
     console.log("Error in login controller", error.message);

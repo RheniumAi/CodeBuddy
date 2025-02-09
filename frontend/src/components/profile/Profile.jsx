@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; 
 import Button from "../common/Button";
 import { getUserProfile } from "../../services/UserApi";
+import { logoutUser } from "../../services/AuthApi";
+import { toast } from 'react-hot-toast';
 
 function Profile() {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const response = await getUserProfile();
-        setUser(response); // Set user data from API
+        setUser(response); 
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
@@ -17,6 +21,19 @@ function Profile() {
 
     fetchUserProfile();
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser(); 
+      toast.success("Logged Out");
+      setTimeout(()=>{
+        navigate('/login');
+      }, 1000)
+    } catch (error) {
+      console.error("Logout failed:", error);
+      toast.error("Failed to log out");
+    }
+  };
 
   if (!user) {
     return <p className="text-white">Loading profile...</p>;
@@ -51,7 +68,7 @@ function Profile() {
       {/* Buttons Section */}
       <div className="flex gap-4 mt-4">
         <Button text="Edit Profile" className="bg-green-500 text-white hover:bg-green-600" />
-        <Button text="Logout" className="bg-red-500 text-white hover:bg-red-600" />
+        <Button text="Logout" className="bg-red-500 text-white hover:bg-red-600" onClick={handleLogout} />
       </div>
     </div>
   );

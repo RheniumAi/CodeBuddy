@@ -10,4 +10,5 @@ export const generateTokenAndSetCookie = (userId, res) => {
     sameSite: "lax", // changed strict to lax
     secure: false //process.env.NODE_ENV !== "development", (Will change it later)
   });
+  return token; // for debugging
 };
