@@ -20,7 +20,7 @@ const addFriend = async (req, res) => {
 
   try {
     const friend = await User.findOne({ email });
-    if (!friend) return res.status(404).json({ message: "Friend not found" });
+    if (!friend) return res.status(404).json({ message: "User not found" });
 
     if (friend._id.toString() === userId.toString()) {
       return res.status(400).json({ message: "You cannot send a friend request to yourself" });
@@ -60,12 +60,10 @@ const viewFriend = async (req, res) => {
 // Accept or reject friend request
 const respondToFriendRequest = async (req, res) => {
   const userId = req.user._id; 
-  const { email, username, action } = req.body; // Friend's email/username & action (accept/reject)
+  const { email, accepted } = req.body; 
 
   try {
-    const friend = await User.findOne({ 
-      $or: [{ email }, { username }] 
-    });
+    const friend = await User.findOne({ email });
 
     if (!friend) return res.status(404).json({ message: "Friend not found" });
 
@@ -78,17 +76,18 @@ const respondToFriendRequest = async (req, res) => {
       return res.status(400).json({ message: "No friend request found from this user" });
     }
 
-    if (action === "accept") {
-      // Add each other to friends list
-      await User.findByIdAndUpdate(userId, { $push: { friends: friendId } });
-      await User.findByIdAndUpdate(friendId, { $push: { friends: userId } });
+    if (accepted) {  
+      if (!user.friends.includes(friendId)) {
+        await User.findByIdAndUpdate(userId, { $push: { friends: friendId } });
+        await User.findByIdAndUpdate(friendId, { $push: { friends: userId } });
+      }
     }
 
     // Remove friend request from both users
     await User.findByIdAndUpdate(userId, { $pull: { friendRequest: friendId } });
     await User.findByIdAndUpdate(friendId, { $pull: { friendRequest: userId } });
 
-    res.status(200).json({ message: `Friend request ${action}ed successfully` });
+    res.status(200).json({ message: `Friend request ${accepted ? "accepted" : "rejected"} successfully` });
   } catch (error) {
     console.error("Error responding to friend request:", error);
     res.status(500).json({ message: "Error processing friend request" });

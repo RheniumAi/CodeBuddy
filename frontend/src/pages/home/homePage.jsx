@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import Navbar from '../../components/Navbar';
-import Welcome from '../../components/Welcome';
-import Footer from '../../components/Footer';
-import About from '../../components/About'; 
-import Wait from '../../components/Wait';
+import Navbar from '../../components/common/Navbar';
+import Welcome from '../../components/Landing/Welcome';
+import Footer from '../../components/common/Footer';
+import About from '../../components/Landing/About'; 
+import Wait from '../../components/Landing/Wait';
 import '../../styles/blob.css'; 
 
 

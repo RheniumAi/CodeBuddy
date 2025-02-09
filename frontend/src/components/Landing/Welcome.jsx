@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Typewriter from 'typewriter-effect'; 
 import Lottie from 'lottie-react';          
-import scroll from '../assets/scroll.json'; 
-import '../styles/blob.css'; 
+import scroll from '../../assets/scroll.json';
 
 function Welcome() {
   const [currentText, setCurrentText] = useState(0);

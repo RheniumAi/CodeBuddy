@@ -8,16 +8,30 @@ export const signUpUser = async (userData)=>{
         return response.data;
     } catch (error) {
         console.error("Error signing up user:", error.response.data);
-        throw new Error(error.response.data.message);
+        throw error.response?.data || { error: "Something went wrong" };
     }
 }
 
-export const loginUser = async (userData)=>{
+export const loginUser = async (userData) => {
     try {
-        const response = await axios.post(`${API_URL}/login`, userData);
-        return response.data;
+      const response = await axios.post(`${API_URL}/login`, userData, {
+        withCredentials: true,  
+      });
+      return response.data;
     } catch (error) {
-        console.error("Error logging in user:", error.response.data);
-        throw new Error(error.response.data.message);
+      console.error("Error logging in user:", error.response?.data);
+      throw error.response?.data || { error: "Something went wrong" };
     }
-}
+};
+
+export const logoutUser = async () => {
+  try {
+      const response = await axios.post(`${API_URL}/logout`, {}, {
+          withCredentials: true, // Ensure cookies are included in the request
+      });
+      return response.data;
+  } catch (error) {
+      console.error("Error logging out user:", error.response?.data);
+      throw error.response?.data || { error: "Something went wrong" };
+  }
+};

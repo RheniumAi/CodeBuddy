@@ -1,6 +1,6 @@
 import React from 'react'
 import Lottie from 'lottie-react';
-import codeAnimation from '../assets/code.json';
+import codeAnimation from '../../assets/code.json';
 function About() {
   return (
     

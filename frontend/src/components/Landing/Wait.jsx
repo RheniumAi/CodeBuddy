@@ -1,6 +1,6 @@
 import React from 'react'
 import Lottie from 'lottie-react';
-import collaborate from '../assets/collaborate.json';
+import collaborate from '../../assets/collaborate.json';
 function Wait() {
   return (
     <div className='flex flex-col sm:flex-row justify-center items-center py-12'>

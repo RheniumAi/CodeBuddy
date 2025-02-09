@@ -25,7 +25,8 @@ function SignUpPage() {
       }, 1000)
     } catch (error) {
       console.error('Signup failed:', error);
-      toast.error("SignUp failed");
+      const errorMessage = error?.error || "SignUp failed. Please try again."; 
+      toast.error(errorMessage);
     }
   }
 
