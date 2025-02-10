@@ -12,6 +12,7 @@ function SignUpPage() {
     username: '',
     email: '',
     password: '',
+    confirmPassword: '',
   });
 
   const handleSubmit = async (e) => {
@@ -76,6 +77,19 @@ function SignUpPage() {
             name="password"
             onChange={handleChange}
             value={formData.password}
+            required
+          />
+        </label>
+
+        <label className="flex flex-col gap-1 mb-6">
+          <span className="font-medium text-gray-700">Confirm Password</span>
+          <input
+            type="password"
+            className="p-2 border rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 hover:shadow-md transition duration-300"
+            placeholder="••••••••"
+            name="confirmPassword"
+            onChange={handleChange}
+            value={formData.confirmPassword}
             required
           />
         </label>

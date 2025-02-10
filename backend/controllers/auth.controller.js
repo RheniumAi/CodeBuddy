@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 
 const signup = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, confirmPassword } = req.body;
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -25,6 +25,11 @@ const signup = async (req, res) => {
       return res
         .status(400)
         .json({ error: "Password must be at least 6 characters long" });
+    }
+    if (password!== confirmPassword) {
+      return res
+       .status(400)
+       .json({ error: "Passwords do not match" });
     }
 
     const salt = await bcrypt.genSalt(10);
