@@ -66,6 +66,7 @@ const FriendRequests = ({ onClose }) => {
           Close
         </button>
       </div>
+  
     </div>
   );
 };

@@ -27,20 +27,15 @@ function Utility() {
 
   return (
     <div className="flex flex-col items-center gap-4 p-6">
-      {/* Input Field */}
-      <input 
-        type="text" 
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter email" 
-        className="p-2 border border-gray-300 rounded-md w-64 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
 
       {/* Buttons */}
-      <div className="flex gap-4">
-        <Button text="Add Friend" className="bg-blue-500 text-white hover:bg-blue-600" onClick={handleSubmit} />
-        <Button text="Collaborate" className="bg-purple-500 text-white hover:bg-purple-600" />
+      <div className="join">
+        <input className="input input-bordered join-item" placeholder="Search by Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+        <button className="btn join-item rounded-r-full" onClick={handleSubmit}>Add</button>
       </div>
+      
+      <Button text="Collaborate" className="bg-purple-500 text-white hover:bg-purple-600" />
+      
     </div>
   );
 }
