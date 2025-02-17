@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../common/Button'; 
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 // Importing API calls to backend
 import { addFriend } from '../../services/UserApi';
@@ -8,6 +9,7 @@ import { addFriend } from '../../services/UserApi';
 function Utility() {
   // Sending friend request by entering emai
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email.trim()) {
@@ -34,7 +36,12 @@ function Utility() {
         <button className="btn join-item rounded-r-full" onClick={handleSubmit}>Add</button>
       </div>
       
-      <Button text="Collaborate" className="bg-purple-500 text-white hover:bg-purple-600" />
+      <Button 
+        text="Collaborate" 
+        className="bg-purple-500 text-white hover:bg-purple-600" 
+        onClick={() => navigate('/collaborate')}
+      />
+
       
     </div>
   );

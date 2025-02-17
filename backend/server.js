@@ -4,19 +4,21 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
+// Importing WebSocket server
+import { server, app } from "./lib/utils/socket.js";
+
 // Importing routes
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 
 dotenv.config();
-
-const app = express();
 const PORT = process.env.PORT || 5000;
 
+
+// Middleware
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 // CORS Configuration
 app.use(
@@ -32,15 +34,13 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-// Auth Routes
+// Routes
 app.use("/api/auth", authRoutes);
-
-// Landing page route(User route)
 app.use("/api/user", userRoutes);
 
-// Collaboration routes
-// app.use('/api/collaborate', collaborateRoutes);
+// Communication routes (for messaging, calling)
+// app.use('/api/communication', communication)
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

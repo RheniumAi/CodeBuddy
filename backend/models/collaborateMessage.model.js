@@ -1,0 +1,1 @@
+// Contains the message schema for the collaborative text editor. room id, sender, reciever, message, timestamp

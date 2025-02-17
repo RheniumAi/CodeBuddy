@@ -6,6 +6,7 @@ import LoginPage from "./pages/auth/login/LoginPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 
 import { Toaster } from 'react-hot-toast';
+import CollaboratePage from './pages/collaborate/CollaboratePage';
 
 function App() {
 	return (
@@ -15,6 +16,7 @@ function App() {
 				<Route path='/signup' element={<SignUpPage />} />
 				<Route path='/login' element={<LoginPage />} />
         		<Route path='/profile' element={<ProfilePage />} />
+				<Route path='/collaborate' element={<CollaboratePage />} />
 			</Routes>
 			<Toaster />
 		</div>
