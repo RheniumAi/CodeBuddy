@@ -23,8 +23,10 @@
     "react-router-dom": "^7.1.5",
     "socket.io-client": "^4.8.1",
     "typewriter-effect": "^2.21.0",
+    "uuid": "^11.0.5",
     "y-monaco": "^0.1.6",
     "y-protocols": "^1.0.6",
+    "y-webrtc": "^10.3.0",
     "y-websocket": "^2.1.0",
     "yjs": "^13.6.23"
   },
