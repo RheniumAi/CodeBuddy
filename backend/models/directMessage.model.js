@@ -1,0 +1,1 @@
+// Model to store the dms. contains the sender, receiver, message, and timestamp

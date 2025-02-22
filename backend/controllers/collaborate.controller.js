@@ -1,1 +1,0 @@
-// Contains the controller for collaborative text editor.
