@@ -10,6 +10,7 @@ import { server, app } from "./lib/utils/socket.js";
 // Import routes
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import collaborateRoutes from "./routes/collaborate.routes.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
@@ -36,6 +37,7 @@ mongoose
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/collaborate", collaborateRoutes);
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

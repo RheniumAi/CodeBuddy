@@ -4,6 +4,8 @@ import Editor from "@monaco-editor/react";
 import { viewFriend } from "../../services/UserApi";
 import { io } from "socket.io-client";
 
+import Ai from "./Ai";
+
 const socket = io("http://localhost:5000"); 
 
 const Webeditor = () => {
@@ -13,6 +15,11 @@ const Webeditor = () => {
   const [inputRoomId, setInputRoomId] = useState("");
   const [users, setUsers] = useState([]);
   const [typing, setTyping] = useState("");
+
+  const [isAiOpen, setIsAiOpen] = useState(false);
+
+  const openAiPopup = () => setIsAiOpen(true);
+  const closeAiPopup = () => setIsAiOpen(false);
 
   // Fetch friends on mount
   useEffect(() => {
@@ -122,6 +129,36 @@ const Webeditor = () => {
             <p>No friends available</p>
           )}
         </div>
+
+        {/* Ask Ai */}
+        <div className="p-4">
+        <button
+          onClick={openAiPopup}
+          className="btn btn-primary"
+        >
+          Ask AI
+        </button>
+
+        {isAiOpen && (
+          <dialog
+            className="modal modal-open"
+            onClick={closeAiPopup}
+          >
+            <div
+              className="modal-box"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={closeAiPopup}
+                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              >
+                ✕
+              </button>
+              <Ai code={code} />
+            </div>
+          </dialog>
+        )}
+      </div>
       </div>
 
       {/* Right Side: Code Editor */}
