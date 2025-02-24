@@ -1,98 +1,186 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; 
-
-// Importing API calls to backend
-import { getUserProfile } from "../../services/UserApi";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { getUserProfile, updateUserBio,removeProfilePicture,uploadProfilePicture } from "../../services/UserApi";
 import { logoutUser } from "../../services/AuthApi";
-
-// Importing components
-import Button from "../common/Button";
 import FriendRequests from "../popups/Friendrequest";
 import Viewfriend from "../popups/Viewfriend";
-
-//Toast
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
+import { getDownloadURL, getStorage, ref, uploadBytes, deleteObject } from "firebase/storage";
+import app from "../../firebase";
 
 function Profile() {
-  // To display user profile
   const [user, setUser] = useState(null);
-  // To display friend requests popup
+  const [bio, setBio] = useState("");
+  const [editingBio, setEditingBio] = useState(false);
+  const [showEditPopup, setShowEditPopup] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [removing, setRemoving] = useState(false);
+  const [imageurl, setImageurl] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
   const [showFriendRequests, setShowFriendRequests] = useState(false);
-  // To display friends popup
   const [showFriends, setShowFriends] = useState(false);
+
+  const fileInputRef = useRef(null);
 
   const navigate = useNavigate();
 
-  // Fetch user details upon render
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const response = await getUserProfile();
-        setUser(response); 
+        if (response) {
+          setUser(response);
+          setBio(response.bio);
+          setImageurl(response.profilePic || "");
+        }
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
     };
-
     fetchUserProfile();
   }, []);
 
-  // Logout the logged in user
-  const handleLogout = async () => {
+  const handleBioSave = async () => {
+    if (!user || !user._id) return toast.error("User not found");
+
     try {
-      await logoutUser(); 
-      toast.success("Logged Out");
-      setTimeout(() => {
-        navigate('/login');
-      }, 1000);
+      const response = await updateUserBio(user._id, bio);
+      if (response.ok) {
+        toast.success("Bio updated successfully!");
+        setEditingBio(false);
+      } else {
+        toast.error("Failed to update bio");
+      }
     } catch (error) {
-      console.error("Logout failed:", error);
-      toast.error("Failed to log out");
+      toast.error("Failed to update bio");
     }
   };
 
-  // Wait while details of logged in user is being fetched
+  const handleProfileClick = () => {
+    fileInputRef.current.click();
+  };
+  
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedImage(file);
+    }
+  };
+  
+  const uploadImage = async () => {
+    if (!selectedImage) return toast.error("No image selected!");
+  
+    try {
+      setUploading(true);
+      const response = await uploadProfilePicture(user._id, selectedImage);
+  
+      setImageurl(response.imageUrl);
+      localStorage.setItem("profileImage", response.imageUrl);
+      toast.success(response.message);
+  
+      // 🔹 Hide the button after successful upload
+      setSelectedImage(null);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+  
+
+  const handleRemoveImage = async () => {
+    if (!imageurl) return toast.error("No profile picture to remove!");
+  
+    try {
+      setRemoving(true);
+      await removeProfilePicture(user._id);
+  
+      setImageurl("");
+      localStorage.removeItem("profileImage");
+      toast.success("Profile picture removed!");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setRemoving(false);
+    }
+  };
+
   if (!user) {
-    return <p className="text-white">Loading profile...</p>;
+    return <p className="text-white text-xl animate-pulse">Loading profile...</p>;
   }
 
   return (
-    <div className="flex flex-col items-center p-6">
-      <div className="flex items-center w-full max-w-4xl">
-        <div className="avatar ml-[10%]">
-          <div className="w-48 h-48 rounded-full ring ring-gray-300 ring-offset-white ring-offset-2"></div>
+    <motion.div className="flex flex-col items-center p-6 bg-gray-900 rounded-2xl shadow-xl w-96 mx-auto mt-10">
+      <h2 className="text-2xl font-bold text-white mt-4">{user.username || "Unknown User"}</h2>
+
+      <input type="file" ref={fileInputRef} style={{ display: "none" }} onChange={handleImageChange} />
+      <div className="cursor-pointer w-32 h-32 rounded-full overflow-hidden flex items-center justify-center bg-gray-700 mt-4" onClick={handleProfileClick}>
+  {imageurl ? <img src={imageurl} className="w-full h-full object-cover" alt="Profile" /> : <span>Click to Upload</span>}
+</div>
+
+{selectedImage && (
+  <button
+    className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+    onClick={uploadImage}
+  >
+    {uploading ? "Uploading..." : "Upload Image"}
+  </button>
+)}
+
+
+
+      {/* EDIT PROFILE BUTTON */}
+      <button
+        className="mt-4 bg-gray-700 text-white px-4 py-1 rounded hover:bg-gray-600"
+        onClick={() => setShowEditPopup(true)}
+      >
+        Edit Profile
+      </button>
+
+      {/* EDIT PROFILE POPUP */}
+      {showEditPopup && (
+        <div className="absolute top-20 bg-gray-800 p-4 rounded-lg shadow-lg text-white">
+          <button className="block text-left px-4 py-2 w-full hover:bg-gray-700 rounded" onClick={() => setEditingBio(true)}>
+            Edit Bio
+          </button>
+          {imageurl && (
+            <button className="block text-left px-4 py-2 w-full hover:bg-gray-700 rounded" onClick={handleRemoveImage}>
+              Remove Profile Picture
+            </button>
+          )}
+          <button className="block text-left px-4 py-2 w-full hover:bg-gray-700 rounded" onClick={() => setShowEditPopup(false)}>
+            Close
+          </button>
         </div>
+      )}
 
-        <div className="card bg-gray-900 bg-opacity-20 backdrop-blur-md shadow-lg w-full min-h-[200px] ml-6 p-6 border border-gray-700 rounded-lg">
-          <h2 className="text-2xl font-bold text-white">{user.username}</h2>
-          <p className="text-gray-300">{user.bio || "No bio available"}</p>
-
-          <div className="flex justify-between mt-4 text-gray-400">
-            <p 
-              className="cursor-pointer text-green-400 hover:text-green-500"
-              onClick={() => setShowFriends(true)}
-            >
-              Friends: <span className="font-semibold text-white">{user.friends.length}</span>
-            </p>
-            <p 
-              className="cursor-pointer text-blue-400 hover:text-blue-500"
-              onClick={() => setShowFriendRequests(true)}
-            >
-              Friend Requests: <span className="font-semibold text-white">{user.friendRequest.length}</span>
-            </p>
-          </div>
-        </div>
+      <div className="mt-4 w-full px-4">
+        {editingBio ? (
+          <>
+            <textarea className="border p-2 w-full rounded bg-gray-800 text-white" value={bio} onChange={(e) => setBio(e.target.value)} />
+            <button className="mt-2 bg-blue-500 text-white px-4 py-1 rounded w-full" onClick={handleBioSave}>
+              Save Bio
+            </button>
+          </>
+        ) : (
+          <p className="text-gray-300 text-center">{bio || "No bio added"}</p>
+        )}
       </div>
+      <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded w-full hover:bg-blue-600" onClick={() => setShowFriendRequests(true)}>
+        Show Friend Requests
+      </button>
+      <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded w-full hover:bg-green-600" onClick={() => setShowFriends(true)}>
+        Show Friends
+      </button>
 
-      <div className="flex gap-4 mt-4">
-        <Button text="Edit Profile" className="bg-green-500 text-white hover:bg-green-600" />
-        <Button text="Logout" className="bg-red-500 text-white hover:bg-red-600" onClick={handleLogout} />
-      </div>
-
-      {/* Dynamic rendering of popup */}
       {showFriendRequests && <FriendRequests onClose={() => setShowFriendRequests(false)} />}
       {showFriends && <Viewfriend onClose={() => setShowFriends(false)} />}
-    </div>
+
+      <button className="mt-4 bg-red-500 text-white px-4 py-2 rounded w-full hover:bg-red-600" onClick={() => navigate("/login")}>
+        Logout
+      </button>
+    </motion.div>
   );
 }
 

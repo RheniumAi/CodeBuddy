@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
 
   password: { 
     type: String, 
-    required: true 
+    required: false 
   },
 
   friends: {
@@ -25,7 +25,14 @@ const userSchema = new mongoose.Schema({
   friendRequest: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     default: []
-  }
+  },
+  bio: { 
+    type: String, default: "" ,
+  },
+
+  profilePic:{
+    type:String,
+  } ,
 }, {timestamps: true} );
 
 export const User = mongoose.model('User', userSchema);

@@ -2,7 +2,7 @@ import { data, useNavigate } from 'react-router-dom';
 import React from 'react';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
-
+import { FcGoogle } from "react-icons/fc"; 
 import { loginUser } from '../../../services/AuthApi.js';
 function LoginPage() {
   const navigate = useNavigate();
@@ -28,6 +28,10 @@ function LoginPage() {
       const errorMessage = error?.error || "Login failed. Please try again."; 
       toast.error(errorMessage);
     }
+  };
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:5000/api/auth/google";
+ // Redirects to Google OAuth
   };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 font-sans">
@@ -65,6 +69,18 @@ function LoginPage() {
         >
           Login
         </button>
+         {/* Google Login Button */}
+         <div className="text-center mt-4">
+        <button
+  
+        className="w-full flex items-center justify-center bg-white text-gray-700 border border-gray-300 py-2 rounded-xl hover:shadow-md transition duration-300"
+        onClick={handleGoogleLogin}
+        >
+         <FcGoogle className="w-6 h-6 mr-2" /> 
+        Login with Google
+         </button>
+
+        </div>
 
         <p className="text-center text-gray-600 mt-4">
           Don't have an account?{' '}

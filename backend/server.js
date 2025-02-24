@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
+import passport from './config/passport.js';
+import session from "express-session";
 // Import WebSocket server
 import { server, app } from "./lib/utils/socket.js";
 
@@ -27,7 +28,18 @@ app.use(
     credentials: true,
   })
 );
+app.use(session({ secret: "your_secret_key", resave: false, saveUninitialized: false }));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET, 
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
