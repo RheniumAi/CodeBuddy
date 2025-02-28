@@ -15,6 +15,7 @@ const Webeditor = () => {
   const [inputRoomId, setInputRoomId] = useState("");
   const [users, setUsers] = useState([]);
   const [typing, setTyping] = useState("");
+  const [language, setlanguage] = useState("javascript");
 
   const [isAiOpen, setIsAiOpen] = useState(false);
 
@@ -79,6 +80,11 @@ const Webeditor = () => {
       localStorage.setItem("roomId", inputRoomId);
       socket.emit("joinRoom", { roomId: inputRoomId });
     }
+  };
+
+  // Language change
+  const handleLanguageChange = (e) => {
+    setlanguage(e.target.value);
   };
 
   return (
@@ -162,12 +168,29 @@ const Webeditor = () => {
       </div>
 
       {/* Right Side: Code Editor */}
-      <div className="w-3/4 bg-black">
+      <div className="flex flex-col w-3/4 bg-transparent">
+        <div className="p-1 flex justify-end">
+          <select
+            className="select select-bordered w-50  max-w-xs bg-#1E1E1E text-white "
+            value={language}
+            onChange={handleLanguageChange}
+          >
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="cpp">C++</option>
+            <option value="java">Java</option>
+            <option value="typescript">TypeScript</option>
+          </select>
+        </div>
+
         <Editor
           height="100vh"
           width="100%"
           theme="vs-dark"
           defaultLanguage="javascript"
+          language={language}
           value={code}
           onChange={handleCodeChange}
           options={{
