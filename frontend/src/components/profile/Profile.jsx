@@ -145,7 +145,7 @@ function Profile() {
         <img
           src={imageurl || "https://via.placeholder.com/128"}
           className="w-full h-full rounded-full object-cover border-4 border-gray-700"
-          alt="Profile"
+          
         />
         <input type="file" ref={fileInputRef} hidden onChange={(e) => setSelectedImage(e.target.files[0])} />
       </div>
