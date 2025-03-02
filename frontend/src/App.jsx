@@ -8,6 +8,9 @@ import ProfilePage from "./pages/profile/ProfilePage";
 import { Toaster } from 'react-hot-toast';
 import CollaboratePage from './pages/collaborate/CollaboratePage';
 
+import Aboutdev from './pages/about/About';
+import Features from './pages/Features/Features';
+
 function App() {
 	return (
 		<div >
@@ -15,6 +18,8 @@ function App() {
 				<Route path='/' element={<HomePage />} />
 				<Route path='/signup' element={<SignUpPage />} />
 				<Route path='/login' element={<LoginPage />} />
+				<Route path='/about' element={<Aboutdev/>}></Route>
+				<Route path='features' element={<Features/>}></Route>
         		<Route path='/profile' element={<ProfilePage />} />
 				<Route path='/collaborate' element={<CollaboratePage />} />
 			</Routes>
