@@ -104,6 +104,19 @@ function Profile() {
 
   if (!user) return <SkeletonLoader type="profile" />;
 
+  const handleLogout = async (e) => { 
+    e.preventDefault();
+    try {
+      await logoutUser();
+      toast.success("Logged out successfully!");
+      navigate("/login");
+    } catch (error) {
+      console.error('Logout failed:', error);
+      toast.error(error.message || "Logout failed. Please try again.");
+    }
+
+  }
+
   return (
     <div className="min-h-screen flex justify-center items-start pt-8"> 
     <motion.div
@@ -117,7 +130,7 @@ function Profile() {
           Profile
         </h1>
         <button
-          onClick={() => navigate("/login")}
+          onClick={handleLogout}
           className="p-2 hover:bg-gray-700 rounded-full transition-colors"
         >
           <FiLogOut className="text-2xl text-red-400" />
@@ -132,7 +145,7 @@ function Profile() {
         <img
           src={imageurl || "https://via.placeholder.com/128"}
           className="w-full h-full rounded-full object-cover border-4 border-gray-700"
-          alt="Profile"
+          
         />
         <input type="file" ref={fileInputRef} hidden onChange={(e) => setSelectedImage(e.target.files[0])} />
       </div>

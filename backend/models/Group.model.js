@@ -1,1 +1,0 @@
-// Contains the schema for creating the group. The group will have a unique id, name, description, and members.
