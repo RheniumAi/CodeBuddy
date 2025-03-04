@@ -37,7 +37,7 @@ export const addFriend = async (email) => {
 // To view the list of friends (request received)
 export const getFriendRequests = async () => {
   try {
-    const response = await axios.get(`${API_URL}/friendRequests`, { // Fixed template literal
+    const response = await axios.get(`${API_URL}/friendRequests`, { 
       withCredentials: true,
     });
     return response.data;
@@ -50,7 +50,7 @@ export const getFriendRequests = async () => {
 // Accept or reject friend request
 export const respondToFriendRequest = async (email, accepted) => {
   try {
-    const response = await axios.post(`${API_URL}/respondFriendRequest`, { email, accepted }, { // Fixed template literal
+    const response = await axios.post(`${API_URL}/respondFriendRequest`, { email, accepted }, { 
       withCredentials: true,
     });
     return response.data;
@@ -63,7 +63,7 @@ export const respondToFriendRequest = async (email, accepted) => {
 // To view the list of friends (accepted)
 export const viewFriend = async () => {
   try {
-    const response = await axios.get(`${API_URL}/viewFriend`, { // Fixed template literal
+    const response = await axios.get(`${API_URL}/viewFriend`, { 
       withCredentials: true,
     });
     return response.data;
@@ -76,7 +76,7 @@ export const viewFriend = async () => {
 // Removing friend from friend list (existing)
 export const removeFriend = async (email) => {
   try {
-    const response = await axios.post(`${API_URL}/removeFriend`, { email }, { // Fixed template literal and added object notation
+    const response = await axios.post(`${API_URL}/removeFriend`, { email }, { 
       withCredentials: true,
     });
     return response.data;
