@@ -4,6 +4,8 @@ import Editor from "@monaco-editor/react";
 import { viewFriend } from "../../services/UserApi";
 import { io } from "socket.io-client";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import Messaging from "./Messaging";
+import {toast} from "react-hot-toast"
 
 import Ai from "./Ai";
 
@@ -50,6 +52,9 @@ const Webeditor = () => {
   useEffect(() => {
     socket.on("userJoined", (users) => {
       setUsers(users);
+      if (users.length > 0) {
+        const newUser = users[users.length - 1]; 
+      }
     });
 
     socket.on("codeUpdate", (newCode) => {
@@ -95,50 +100,64 @@ const Webeditor = () => {
         
         {/* Left Side: Room ID & Friends */}
         <Panel defaultSize={25} minSize={15} maxSize={40}>
-          <div className="bg-gray-800 p-4 text-white h-full overflow-y-auto">
-            {/* Room ID */}
-            <div className="mb-4 p-2 bg-gray-700 rounded-lg text-center">
-              <h3 className="text-lg font-semibold">Room ID:</h3>
-              <p className="text-sm break-all">{roomId}</p>
+
+          {/* Drawer for room info and invite friends*/}
+          <div className="drawer z-50 ">
+            <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+            <div className="drawer-content ">
+              {/* Page content here */}
+              <label htmlFor="my-drawer" className="btn btn-primary drawer-button">Room Info</label>
             </div>
-  
-            {/* Join Room */}
-            <div className="mb-4 p-2 bg-gray-700 rounded-lg text-center">
-              <input
-                type="text"
-                className="w-full p-2 bg-gray-600 rounded-lg text-white"
-                placeholder="Enter Room ID"
-                value={inputRoomId}
-                onChange={(e) => setInputRoomId(e.target.value)}
-              />
-              <button
-                className="mt-2 w-full bg-blue-600 py-2 rounded-lg hover:bg-blue-700"
-                onClick={joinRoomById}
-              >
-                Join Room
-              </button>
+            <div className="drawer-side">
+              <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
+              <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+                {/* Room ID */}
+                <div className="mb-4 p-2 bg-gray-700 rounded-lg text-center">
+                  <h3 className="text-lg font-semibold">Room ID:</h3>
+                  <p className="text-sm break-all">{roomId}</p>
+                </div>
+                {/* Join Room */}
+                <input
+                  type="text"
+                  className="w-full p-2 bg-gray-600 rounded-lg text-white"
+                  placeholder="Enter Room ID"
+                  value={inputRoomId}
+                  onChange={(e) => setInputRoomId(e.target.value)}
+                />
+                <button
+                  className="mt-2 w-full bg-blue-600 py-2 rounded-lg hover:bg-blue-700"
+                  onClick={joinRoomById}
+                >
+                  Join Room
+                </button>
+
+                {/* Invite Friends */}
+
+                <h2 className="text-xl font-semibold mb-4">Invite Friends</h2>
+                <div className="space-y-2">
+                  {friends.length > 0 ? (
+                    friends.map((friend) => (
+                      <div
+                        key={friend._id}
+                        className="flex justify-between items-center p-2 bg-gray-700 rounded-lg"
+                      >
+                        <span>{friend.username}</span>
+                        <button className="bg-blue-600 py-1 px-2 text-sm rounded-lg hover:bg-blue-700">
+                          Invite
+                        </button>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No friends available</p>
+                  )}
+                </div>
+              </ul>
             </div>
-  
-            {/* Invite Friends */}
-            <h2 className="text-xl font-semibold mb-4">Invite Friends</h2>
-            <div className="space-y-2">
-              {friends.length > 0 ? (
-                friends.map((friend) => (
-                  <div
-                    key={friend._id}
-                    className="flex justify-between items-center p-2 bg-gray-700 rounded-lg"
-                  >
-                    <span>{friend.username}</span>
-                    <button className="bg-blue-600 py-1 px-2 text-sm rounded-lg hover:bg-blue-700">
-                      Invite
-                    </button>
-                  </div>
-                ))
-              ) : (
-                <p>No friends available</p>
-              )}
-            </div>
-  
+          </div>
+
+          {/* Messaging */}
+
+          <div className="bg-gray-800 p-4 text-white h-full overflow-y-auto">  
             {/* Ask AI */}
             <div className="p-4">
               <button onClick={openAiPopup} className="btn btn-primary">
@@ -166,7 +185,7 @@ const Webeditor = () => {
         </Panel>
   
         {/* Resizable Handle */}
-        <PanelResizeHandle className="w-2 bg-gray-600 cursor-col-resize" />
+        <PanelResizeHandle className="w-1 bg-gray-700 cursor-col-resize" />
   
         {/* Right Side: Code Editor */}
         <Panel defaultSize={75} minSize={60}>

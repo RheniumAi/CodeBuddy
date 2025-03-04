@@ -17,24 +17,31 @@ io.on("connection", (socket) => {
   console.log(`User connected: ${socket.id}`);
 
   // Handle room joining
-  socket.on("joinRoom", ({ roomId }) => {
+  socket.on("joinRoom", ({ roomId, username }) => {
     socket.join(roomId);
 
     // Add user to the room
     if (!rooms[roomId]) {
       rooms[roomId] = [];
     }
-    rooms[roomId].push(socket.id);
+    rooms[roomId].push({ id: socket.id, username });
 
     // Notify others in the room
-    io.to(roomId).emit("userJoined", rooms[roomId]);
-    console.log(`User ${socket.id} joined room ${roomId}`);
+    io.to(roomId).emit("userJoined", username);
+    console.log(`User ${username} (${socket.id}) joined room ${roomId}`);
   });
 
   // Handle code updates
   socket.on("codeUpdate", ({ roomId, code }) => {
     socket.to(roomId).emit("codeUpdate", code);
   });
+
+  // Handle user typing
+  socket.on("userTyping", ({ roomId, username }) => {
+    socket.to(roomId).emit("userTyping", username);
+  });
+
+  
 
   // Handle disconnection
   socket.on("disconnect", () => {

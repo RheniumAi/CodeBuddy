@@ -1,1 +1,0 @@
-// Contains the model for group messages. group id, sender, message, timestamp
