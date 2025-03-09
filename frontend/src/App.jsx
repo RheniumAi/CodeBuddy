@@ -1,15 +1,15 @@
 import { Routes, Route } from 'react-router-dom';
 
-import HomePage from './pages/landing/homepage';
-import SignUpPage from "./pages/auth/signup/signuppage";
-import LoginPage from "./pages/auth/login/loginpage";
-import ProfilePage from "./pages/profile/profilepage";
+import HomePage from './pages/landing/HomePage';
+import SignUpPage from "./pages/auth/signup/SignUpPage";
+import LoginPage from "./pages/auth/login/LoginPage";
+import ProfilePage from "./pages/profile/ProfilePage";
 
 import { Toaster } from 'react-hot-toast';
-import CollaboratePage from './pages/collaborate/collaboratepage';
+import CollaboratePage from './pages/collaborate/CollaboratePage';
 
-import Aboutdev from './pages/about/about';
-import Features from './pages/Features/features';
+import Aboutdev from './pages/about/Aboutdev';
+import Features from './pages/Features/Features';
 
 function App() {
 	return (
