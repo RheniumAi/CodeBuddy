@@ -1,7 +1,7 @@
 import React from "react";
 import FeatureCard from "../../components/featurecard/Card"; 
 
-import askaivideo from "../../assets/AskAI.mp4";
+import askaivideo from "../../assets/AskAi.mp4";
 import collabvideo from "../../assets/Collaborate.mp4";
 import Ai from "../../assets/Ai.json";
 import Collab from "../../assets/Collab.json";
