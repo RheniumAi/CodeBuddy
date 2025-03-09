@@ -32,10 +32,10 @@ const Ai = ({ code, isAiOpen, closeAiPopup }) => {
 
       if (isFirstQuery) setIsFirstQuery(false);
     } catch (error) {
-      setMessages((prev) => [
-        ...prev,
-        { text: "Failed to get AI response. Try again.", sender: "ai" },
-      ]);
+      const errorMessage =
+        error.error || "Failed to get AI response. Try again.";
+
+      setMessages((prev) => [...prev, { text: errorMessage, sender: "ai" }]);
     }
 
     setInput("");
@@ -50,15 +50,41 @@ const Ai = ({ code, isAiOpen, closeAiPopup }) => {
         <div className="flex items-center justify-between p-6 border-b border-gray-700">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-600/20 rounded-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-blue-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-100">AI Code Assistant</h3>
+            <h3 className="text-xl font-semibold text-gray-100">
+              AI Code Assistant
+            </h3>
           </div>
-          <button onClick={closeAiPopup} className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700 transition-colors">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <button
+            onClick={closeAiPopup}
+            className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700 transition-colors"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -69,8 +95,19 @@ const Ai = ({ code, isAiOpen, closeAiPopup }) => {
           <div className="flex-1 bg-gray-900/50 rounded-lg p-4 overflow-y-auto">
             <div className="prose prose-invert max-w-none">
               {messages.map((msg, index) => (
-                <div key={index} className={`chat ${msg.sender === "user" ? "chat-end" : "chat-start"}`}>
-                  <div className={`chat-bubble ${msg.sender === "user" ? "bg-blue-500 text-white" : "bg-gray-700 text-white"} whitespace-pre-wrap`}>
+                <div
+                  key={index}
+                  className={`chat ${
+                    msg.sender === "user" ? "chat-end" : "chat-start"
+                  }`}
+                >
+                  <div
+                    className={`chat-bubble ${
+                      msg.sender === "user"
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-700 text-white"
+                    } whitespace-pre-wrap`}
+                  >
                     {msg.text}
                   </div>
                 </div>
@@ -90,9 +127,21 @@ const Ai = ({ code, isAiOpen, closeAiPopup }) => {
                 className="flex-1 px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
               />
-              <button onClick={handleSend} className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-sm font-medium rounded-lg transition-colors flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
+              <button
+                onClick={handleSend}
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 Ask
               </button>

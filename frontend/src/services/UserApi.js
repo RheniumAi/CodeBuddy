@@ -2,7 +2,7 @@ import axios from "axios";
 import { getStorage, ref, uploadBytes, getDownloadURL,deleteObject } from "firebase/storage";
 
 import app from "../firebase";
-const API_URL = "http://localhost:5000/api/user";
+const API_URL = `${import.meta.env.VITE_API_URL}/api/user`;
 
 
 
@@ -127,22 +127,18 @@ export const uploadProfilePicture = async (userId, imageFile) => {
 
 //updatebio code 
 export const updateUserBio = async (userId, bio) => {
-  if (!userId) {
-    console.error("User ID is undefined");
-    return { ok: false, message: "User ID is required" };
-  }
+  if (!userId) throw new Error("User ID is required");
 
   try {
-    const response = await fetch("http://localhost:5000/api/user/update-bio", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, bio }),
+    const response = await axios.put(`${API_URL}/update-bio`, {
+      userId,
+      bio,
     });
 
-    return response;
+    return response.data;
   } catch (error) {
-    console.error("Error updating bio:", error);
-    return { ok: false, message: "Network error" };
+    console.error("Error updating bio:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || "Failed to update bio");
   }
 };
 
