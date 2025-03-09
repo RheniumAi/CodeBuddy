@@ -44,15 +44,6 @@ const Features = () => {
           ""
         ]}
       />
-         <Card
-        image="https://res.cloudinary.com/dgeshbpps/image/upload/v1740853188/f9ta6eoswl6yqtrhuvkc.jpg"
-        title="Message"
-        description=""
-        
-        details={[
-          ""
-        ]}
-      />
        
     </div>
   );

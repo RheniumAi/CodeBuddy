@@ -149,6 +149,9 @@ const Ai = ({ code, isAiOpen, closeAiPopup }) => {
             <p className="text-xs text-gray-400 mt-2">
               Pro tip: Try "Optimize this function" or "Explain this algorithm"
             </p>
+            <p className="text-xs text-red-500 mt-2">
+              Note: To prevent misuse, users can ask up to 5 questions, with usage renewing every 5 hours."
+            </p>
           </div>
         </div>
       </div>
