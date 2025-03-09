@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Ai from "./Ai";
 import { ClipboardCopyIcon } from "lucide-react";
 
-const socket = io("http://localhost:5000");
+const socket = io(import.meta.env.VITE_API_URL);
 
 const Webeditor = () => {
   const navigate = useNavigate();

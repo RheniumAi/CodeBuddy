@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const SOCKET_SERVER_URL = "http://localhost:5000"; // Backend socket server URL
+const SOCKET_SERVER_URL = import.meta.env.VITE_API_URL; // Backend socket server URL
 
 // Connect socket with userId (Replace with actual user ID from auth)
 export const connectSocket = (userId) => {

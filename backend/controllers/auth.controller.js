@@ -107,6 +107,6 @@ const googleAuth = passport.authenticate("google", { scope: ["profile", "email"]
 // Google Auth Callback Handler
 const googleAuthCallback = (req, res) => {
   generateTokenAndSetCookie(req.user._id, res); // Set JWT token for OAuth user
-  res.redirect("http://localhost:5173/profile"); // Redirect to profile page
+  res.redirect(`${process.env.CLIENT_BASE_URL}/profile`); // Redirect to profile page
 };
 export { signup, login, logout,googleAuth, googleAuthCallback };
