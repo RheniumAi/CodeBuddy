@@ -8,7 +8,7 @@ import ProfilePage from "./pages/profile/profilepage";
 import { Toaster } from 'react-hot-toast';
 import CollaboratePage from './pages/collaborate/collaboratepage';
 
-import Aboutdev from './pages/about/About';
+import Aboutdev from './pages/about/about';
 import Features from './pages/Features/features';
 
 function App() {
