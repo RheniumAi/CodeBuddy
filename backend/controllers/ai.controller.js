@@ -33,9 +33,9 @@ export const generateCode = asyncHandler(async (req, res) => {
       model: "HuggingFaceH4/starchat-beta",
       inputs: prompt,
       parameters: {
-        max_new_tokens: 100, 
-        temperature: 0.2, 
-        top_p: 0.9, 
+        max_new_tokens: 150, 
+        temperature: 0.1, 
+        top_p: 0.5, 
         return_full_text: false, 
       },
     });

@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import Ai from "./Ai";
 import { ClipboardCopyIcon } from "lucide-react";
 
-
 const socket = io("http://localhost:5000");
 
 const Webeditor = () => {
@@ -262,6 +261,7 @@ const Webeditor = () => {
             </div>
   
             {/* Friends List */}
+            
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-medium text-gray-300">Friends List</h3>
