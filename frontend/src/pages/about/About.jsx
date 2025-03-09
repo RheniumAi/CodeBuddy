@@ -81,7 +81,7 @@ function Aboutdev() {
                         </h2>
                         <div className="prose max-w-3xl text-gray-600 space-y-4">
     <p className="text-lg leading-relaxed">
-        👨💻 Tech enthusiast currently pursuing B.Tech at PEC. Passionate about building 
+        👨💻 Tech enthusiast currently pursuing B.Tech at Punjab Engineering College. Passionate about building 
         full-stack solutions with modern web technologies.
     </p>
     <p className="text-lg leading-relaxed">
