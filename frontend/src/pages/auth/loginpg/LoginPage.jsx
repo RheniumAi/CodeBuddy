@@ -30,7 +30,7 @@ function LoginPage() {
     }
   };
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google`;
  // Redirects to Google OAuth
   };
   return (
